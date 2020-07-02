@@ -7,4 +7,4 @@ Service 是 Muta 框架中用于扩展的抽象层，用户可以基于 Service 
 * [Metadata Service](./metadata_service.md)：支持链的运营方在起链前对链的相关信息进行配置。
 * [RISC-V Service](./riscv_service.md)：支持用户用 c 语言进行合约的开发，本文档还将提供一个 [demo](./contract_demo) 详细阐述开发过程。
 * [Multi-Signature Service](./multi_signature_service.md)：多重签名支持。
-* [Node Manager Service](./node_manager_service.md)：支持动态添加、删除节点。
+* [Governance Service](./governance_service.md)：支持动态添加、删除节点，注册利润。
