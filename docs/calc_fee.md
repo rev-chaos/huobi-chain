@@ -5,10 +5,10 @@
 2. 手续费计算
 
 $$
-max(TX\_FLOOR\_FEE, \ \sum profit \times discount\_rate)
+max(TX\_FLOOR\_FEE, \ \sum profit \times fee\_rate \times discount\_rate)
 $$
 
-折扣与交易发起人的账户余额有关，见下表
+其中 `TX_FLOOR_FEE` 为最低手续费金额，折扣与交易发起人的账户余额有关，见下表：
 
 |    账户余额     | 折扣 |
 | :-------------: | :--: |

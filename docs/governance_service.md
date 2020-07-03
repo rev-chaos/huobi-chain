@@ -226,7 +226,7 @@ GraphiQL 示例：
 query get_govern_info {
   queryService(
   caller: "0x016cbd9ee47a255a6f68882918dcdd9e14e6bee1"
-  serviceName: "node_manager"
+  serviceName: "governance"
   method: "get_govern_info"
   payload: ""
   ){
@@ -245,6 +245,15 @@ fn set_govern_info(&mut self, ctx: ServiceContext, payload: SetGovernInfoPayload
 // 参数
 pub struct SetGovernInfoPayload {
     pub inner: GovernanceInfo,
+}
+
+pub struct GovernanceInfo {
+    pub admin: Address,
+    pub tx_failure_fee: u64,
+    pub tx_floor_fee: u64,
+    pub profit_deduct_rate_per_million: u64,
+    pub tx_fee_discount: Vec<DiscountLevel>,
+    pub miner_benefit: u64,
 }
 ```
 
@@ -325,7 +334,9 @@ fn set_miner(&mut self, ctx: ServiceContext, payload: MinerChargeConfig) -> Serv
 
 // 参数
 pub struct MinerChargeConfig {
+    // 矿工地址
     pub address:              Address,
+    // 矿工收款地址
     pub miner_charge_address: Address,
 }
 ```
@@ -356,7 +367,9 @@ fn accumulate_profit(&mut self, ctx: ServiceContext, payload: AccmulateProfitPay
 
 // 参数
 pub struct AccmulateProfitPayload {
+    // 获得利润的地址
     pub address:            Address,
+    // 获得的利润
     pub accumulated_profit: u64,
 }
 ```
