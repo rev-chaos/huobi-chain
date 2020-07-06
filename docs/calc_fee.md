@@ -8,7 +8,7 @@ $$
 max(TX\_FLOOR\_FEE, \ \sum profit \times fee\_rate \times discount\_rate)
 $$
 
-其中 `TX_FLOOR_FEE` 为最低手续费金额，折扣与交易发起人的账户余额有关，见下表：
+其中 `TX_FLOOR_FEE` 为最低手续费金额，`fee_rate` 是手续费率，对应 Govern Service 中的 `profit_deduct_rate_per_million`，`discount_rate` 是一个手续费折扣，对应 Govern Service 中的 `tx_fee_discount`，其与交易发起人的账户余额有关，关系见下表：
 
 |    账户余额     | 折扣 |
 | :-------------: | :--: |
