@@ -13,7 +13,7 @@ Governance Service 对共识配置的管理通过更改 [metadata](./metadata_se
 1. 读取 admin 地址
 
 ```rust
-fn get_admin(&self, ctx: ServiceContext) -> ProtocolResult<Address>
+fn get_admin(&self, ctx: ServiceContext) -> ProtocolResult<Address>;
 ```
 
 GraphiQL 示例：
@@ -36,7 +36,7 @@ query get_admin{
 
 ```rust
 // 需要 admin 权限
-fn set_admin(&mut self, ctx: ServiceContext, payload: SetAdminPayload) -> ProtocolResult<()>
+fn set_admin(&mut self, ctx: ServiceContext, payload: SetAdminPayload) -> ProtocolResult<()>;
 
 // 参数
 pub struct SetAdminPayload {
@@ -66,7 +66,7 @@ mutation set_admin{
    
 ```rust
 // 需要 admin 权限
-fn update_metadata(&mut self, ctx: ServiceContext, payload: UpdateMetadataPayload) -> ProtocolResult<()>
+fn update_metadata(&mut self, ctx: ServiceContext, payload: UpdateMetadataPayload) -> ProtocolResult<()>;
 
 // 参数
 pub struct UpdateMetadataPayload {
@@ -108,7 +108,7 @@ mutation update_metadata{
 
 ```rust
 // 需要 admin 权限
-fn update_interval(&mut self, ctx: ServiceContext, payload: UpdateIntervalPayload) -> ProtocolResult<()>
+fn update_interval(&mut self, ctx: ServiceContext, payload: UpdateIntervalPayload) -> ProtocolResult<()>;
 
 // 参数
 pub struct UpdateIntervalPayload {
@@ -138,7 +138,7 @@ mutation update_interval{
 
 ```rust
 // 需要 admin 权限
-fn update_validators(&mut self, ctx: ServiceContext, payload: UpdateValidatorsPayload) -> ProtocolResult<()>
+fn update_validators(&mut self, ctx: ServiceContext, payload: UpdateValidatorsPayload) -> ProtocolResult<()>;
 
 // 参数
 pub struct UpdateValidatorsPayload {
@@ -175,7 +175,7 @@ mutation update_validators{
 
 ```rust
 // 需要 admin 权限
-fn update_ratio(&mut self, ctx: ServiceContext, payload: UpdateRatioPayload) -> ProtocolResult<()>
+fn update_ratio(&mut self, ctx: ServiceContext, payload: UpdateRatioPayload) -> ProtocolResult<()>;
 
 // 参数
 pub struct UpdateRatioPayload {
@@ -207,7 +207,7 @@ mutation update_ratio{
 7. 获取治理信息
 
 ```rust
-fn get_govern_info(&self, ctx: ServiceContext) -> ServiceResponse<GovernanceInfo>
+fn get_govern_info(&self, ctx: ServiceContext) -> ServiceResponse<GovernanceInfo>;
 
 // 参数
 pub struct GovernanceInfo {
@@ -240,7 +240,7 @@ query get_govern_info {
 
 ```rust
 // 需要 admin 权限
-fn set_govern_info(&mut self, ctx: ServiceContext, payload: SetGovernInfoPayload) -> ServiceResponse<()>
+fn set_govern_info(&mut self, ctx: ServiceContext, payload: SetGovernInfoPayload) -> ServiceResponse<()>;
 
 // 参数
 pub struct SetGovernInfoPayload {
@@ -285,7 +285,7 @@ mutation update_validators{
 9. 获取交易失败手续费
 
 ```rust
-fn get_tx_failure_fee(&self, ctx: ServiceContext) -> ServiceResponse<u64>
+fn get_tx_failure_fee(&self, ctx: ServiceContext) -> ServiceResponse<u64>;
 ```
 
 GraphiQL 示例：
@@ -307,7 +307,7 @@ query get_tx_failure_fee {
 10. 获取最低手续费
 
 ```rust
-fn get_tx_floor_fee(&self, ctx: ServiceContext) -> ServiceResponse<u64>
+fn get_tx_floor_fee(&self, ctx: ServiceContext) -> ServiceResponse<u64>;
 ```
 
 GraphiQL 示例：
@@ -330,7 +330,7 @@ query get_tx_floor_fee{
 
 ```rust
 // 需要 admin 权限
-fn set_miner(&mut self, ctx: ServiceContext, payload: MinerChargeConfig) -> ServiceResponse<()>
+fn set_miner(&mut self, ctx: ServiceContext, payload: MinerChargeConfig) -> ServiceResponse<()>;
 
 // 参数
 pub struct MinerChargeConfig {
@@ -363,7 +363,7 @@ mutation update_validators{
 12. 申报利润
 
 ```rust
-fn accumulate_profit(&mut self, ctx: ServiceContext, payload: AccmulateProfitPayload) -> ServiceResponse<()>
+fn accumulate_profit(&mut self, ctx: ServiceContext, payload: AccmulateProfitPayload) -> ServiceResponse<()>;
 
 // 参数
 pub struct AccmulateProfitPayload {
