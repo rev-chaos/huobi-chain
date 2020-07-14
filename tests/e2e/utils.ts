@@ -33,6 +33,8 @@ const assetGenesis = JSON.parse(
 const feeAssetID = assetGenesis.id;
 const feeAccount = assetGenesis.fee_acocunt;
 
+const randomString = require("randomstring");
+
 export async function transfer(
   txSender: any,
   assetID: any,
@@ -59,6 +61,21 @@ export async function transfer(
   return receipt;
 }
 
+export function genRandomString(prefix: String = 'r', length: number = 12) {
+  expect(prefix.length <= length);
+  return prefix + randomString.generate(length - prefix.length);
+}
+
+export function genRandomStrings(size: number = 3, prefix: String = 't', length: number = 12) {
+  const names = new Array(0);
+
+  for(var i = 0; i < size; i++) {
+    names.push(genRandomString(prefix, length));
+  }
+
+  return names;
+}
+
 export {
-  accounts, admin, client, feeAssetID, feeAccount, hexToNum,
+  accounts, admin, client, feeAssetID, feeAccount, hexToNum
 };

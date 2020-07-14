@@ -7,7 +7,7 @@ use error::ServiceError;
 
 use expression::traits::ExpressionDataFeed;
 use types::{
-    ChangeOrgAdmin, ChangeOrgApproved, EvalUserTagExpression, FixedTagList, Genesis, GetUserTags,
+    ChangeOrgAdmin, ChangeOrgApproved, ChangeServiceAdmin, EvalUserTagExpression, FixedTagList, Genesis, GetUserTags,
     KycOrgInfo, NewOrgEvent, OrgName, RegisterNewOrg, TagName, UpdateOrgSupportTags,
     UpdateUserTags, Validate,
 };
@@ -147,7 +147,7 @@ impl<SDK: ServiceSDK> KycService<SDK> {
 
     #[cycles(21_000)]
     #[read]
-    fn get_orgs(&self, ctx: ServiceContext, _: String) -> ServiceResponse<Vec<OrgName>> {
+    fn get_orgs(&self, ctx: ServiceContext) -> ServiceResponse<Vec<OrgName>> {
         let mut org_names = Vec::new();
 
         for (org_name, _) in self.orgs_approved.iter() {
@@ -277,12 +277,12 @@ impl<SDK: ServiceSDK> KycService<SDK> {
     fn change_service_admin(
         &mut self,
         ctx: ServiceContext,
-        new_admin: Address,
+        payload: ChangeServiceAdmin,
     ) -> ServiceResponse<()> {
         require_service_admin!(self, &ctx);
 
         self.sdk
-            .set_value(KYC_SERVICE_ADMIN_KEY.to_owned(), new_admin);
+            .set_value(KYC_SERVICE_ADMIN_KEY.to_owned(), payload.new_admin);
         ServiceResponse::from_succeed(())
     }
 
