@@ -7,9 +7,9 @@ use error::ServiceError;
 
 use expression::traits::ExpressionDataFeed;
 use types::{
-    ChangeOrgAdmin, ChangeOrgApproved, ChangeServiceAdmin, EvalUserTagExpression, FixedTagList, Genesis, GetUserTags,
-    KycOrgInfo, NewOrgEvent, OrgName, RegisterNewOrg, TagName, UpdateOrgSupportTags,
-    UpdateUserTags, Validate,
+    ChangeOrgAdmin, ChangeOrgApproved, ChangeServiceAdmin, EvalUserTagExpression, FixedTagList,
+    Genesis, GetUserTags, KycOrgInfo, NewOrgEvent, OrgName, RegisterNewOrg, TagName,
+    UpdateOrgSupportTags, UpdateUserTags, Validate,
 };
 
 use binding_macro::{cycles, genesis, service};

@@ -603,7 +603,7 @@ impl Validate for ChangeOrgAdmin {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ChangeServiceAdmin {
-    pub new_admin:     Address,
+    pub new_admin: Address,
 }
 
 impl Validate for ChangeServiceAdmin {
