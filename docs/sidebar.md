@@ -13,7 +13,9 @@
 - **Service 介绍**
 	- [概览](/service_overview.md)
 	- [Metadata Service](/metadata_service.md)
-	- [Node Manager Service](/node_manager_service.md)
+	- [Multi-signature Service](/multi_signature_service.md)
+	- [Authorization Service](/authorization_service.md)
+	- [Governance Service](/governance_service.md)
 	- [Asset Service](/asset_service.md)
 	- [RISC-V Service](/riscv_service.md)
 - **合约开发**
