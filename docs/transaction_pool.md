@@ -5,11 +5,11 @@ Mempool 的作用是收集合法的新交易，以向 Consensus 模块提供用�
 
 具体来说，当节点成为本轮共识的 Leader 后，会向 Mempool 请求两个交易哈希集合用于构建共识提案。
 一个交易哈希集合叫 `ordered_tx_hashes`，用于构建区块，参与本轮共识过程。
-另一个叫 `ordered_tx_hashes`，当 Mempool 中的交易数量超出一个区块所能放入的最大交易数时，
-Mempool 会将全部或部分溢出的交易哈希放入`propose_hashes` 中。
+另一个叫 `propose_tx_hashes`，当 Mempool 中的交易数量超出一个区块所能放入的最大交易数时，
+Mempool 会将全部或部分溢出的交易哈希放入`propose_tx_hashes` 中。
 
 其他节点收到共识提案后，一方面检查 `ordered_tx_hashes` 所对应的完整交易是否都在本地 Mempool 中，如有缺失则向提案发起者同步交易。
-如果在一定时间内无法收齐交易，则该提案视为非法。另一方面检查 `propose_hashes`，同步缺失的交易，以提高待未来共识的交易的同步率。
+如果在一定时间内无法收齐交易，则该提案视为非法。另一方面检查 `propose_tx_hashes`，同步缺失的交易，以提高待未来共识的交易的同步率。
 
 当节点收集到合法共识提案的 2/3+ 的 Prevote 投票时，该提案即达成锁定条件，
 Consensus 模块会通过 Mempool 拿到 `ordered_tx_hashes` 所对应的全部完整交易，并进行持久化，以保证共识安全。
@@ -22,7 +22,7 @@ Consensus 模块会通过 Mempool 拿到 `ordered_tx_hashes` 所对应的全部�
 - `flush`: 从 Mempool 中删除达成共识的交易。
 - `get_full_txs`: 从 Mempool 中返回指定的交易哈希集合所对应的完整交易。
 - `ensure_order_txs`: 确保 `ordered_tx_hashes` 所对应的完整交易都在 Mempool 中，对于缺失的交易会通过 Network 同步。
-- `sync_propose_txs`: 检查 `propose_hashes` 所对应的完整交易是否都在 Mempool 中，并同步缺失的交易。
+- `sync_propose_txs`: 检查 `propose_tx_hashes` 所对应的完整交易是否都在 Mempool 中，并同步缺失的交易。
 
 ## 交易的合法性检查
 1. 交易池是否已满
@@ -62,7 +62,7 @@ Consensus 模块会通过 Mempool 拿到 `ordered_tx_hashes` 所对应的全部�
   检查提案中的 `ordered_tx_hashes` 所对应的完整交易是否都在 Mempool 中，
   对于缺失的交易，Mempool 会调用 Network 的 `pull_txs` 接口获取对应的完整交易。
 - 当节点收到共识提案时，Consensus 会调用 Mempool 的 `sync_propose_txs` 接口，
-  检查提案中的 `propose_hashes` 所对应的完整交易是否都在 Mempool 中，
+  检查提案中的 `propose_tx_hashes` 所对应的完整交易是否都在 Mempool 中，
   对于缺失的交易，Mempool 会调用 Network 的 `pull_txs` 接口获取对应的完整交易。
 - 当某个提案达成锁定条件时，Consensus 会调用 Mempool 的 `get_full_txs` 接口，
   以获得该提案中的 `ordered_tx_hashes` 所对应的完整交易，并进行持久化，确保被锁住的提案的完整的 `ordered_tx` 不会丢失。
@@ -139,25 +139,24 @@ struct MixedTxHashes {
 }
 ``` 
 
-通过所有检查的新交易在插入 Mempool 时，首先包装为 `TxWrapper`（`removed` 和 `proposed` 均设置为 `false`）。
-然后转换为 `SharedTx` 并插入 `TxCache` 中（插入当前轮值的 `queue` 的尾部，以及 `map` 中）。 
+通过所有检查的合法新交易在插入 Mempool 时，首先包装为 `TxWrapper`（`removed` 和 `proposed` 均设置为 `false`）。
+进而包装为 `SharedTx` 插入 `TxCache` 中（插入轮值 `queue` 的尾部，以及 `map` 中）。 
 
-Mempool 收到共识的打包请求时，返回 `MixedTxHashes`，其中包含用于共识的 `order_tx_hashes` 和用于提前同步的 `propose_tx_hashes`。
+Mempool 收到共识的打包请求时，返回 `MixedTxHashes`，其中包含用于共识的 `order_tx_hashes` 
+和用于提前同步的 `propose_tx_hashes`。
 
-打包算法如下，从当前轮值的 `queue` 的头部开始弹出交易，跳过 `removed = true` 的 `TxWrapper`，
-直到达到 `cycle_limit `上限为止，将这些交易哈希插入 `order_tx_hashes` 中。继续弹出交易，
-跳过 `proposed = true` 的 `TxWrapper`，直到达到 `cycle_limit` 上限为止，
-将这些交易哈希插入 `propose_tx_hashes` 中。
-以上弹出的交易除了 `removed = true` 的交易外都按照弹出顺序插入到当前替补的 `queue` 中。
-当轮值 `queue` 全部弹出后，交换两个 `queue` 的身份。
+打包算法大致如下:
+1. 从轮值 `queue` 的头部开始依次弹出 `SharedTx`，
+直到全部弹出或者达到 `cycles_limit `阈值为止，将这些交易哈希插入 `order_tx_hashes` 中。
+2. 如果第一步结束后，轮值 `queue` 中还有交易，则继续弹出 `SharedTx`，
+直到全部弹出或达到 `cycles_limit` 阈值为止，将这些交易哈希插入 `propose_tx_hashes` 中。
+3. 如果第二步结束后，轮值 `queue` 依然不为空，则继续弹出 `SharedTx`。
+（以上三步弹出的 `SharedTx` ，按弹出顺序依次插入到替补 `queue` 中，以维持 `SharedTx` 插入 Mempool 的顺序。）
+4. 当轮值 `queue` 全部弹出后，交换两个 `queue` 的角色，即轮值 `queue` 成为替补 `queue`，反之亦然。
 
-当节点收到来自 leader 的 proposal 时，会请求 Mempool 检查 `order_tx_hashes` 和 `propose_tx_hashes`。
-Mempool 通过查询 `TxCache.map` 确定交易是否存在，对于缺失的交易发起同步请求。
-对于同步返回的 order 交易插入到 `CallbackCache` 中，而对于同步返回的 propose 交易则插入到 `TxCache`  中，
-并将 `proposed` 设置为 `true`。
-
-Mempool 收到共识的删除指定 `tx_hashes` 集合的请求时，先清空 `CallbackCache`，然后查询 `TxCache.map`，
-将对应的 `TxWrapper` 中的 `removed` 设置为 `true`，然后删除该 `SharedTx`。
+在打包过程中并发插入的合法新交易都会插入到轮值 `queue` 中，在 `queue` 的角色切换之时，
+有很小的概率出现少量新插入的交易排在老交易之前，使打包顺序不能完全与交易插入 Mempool 的顺序一致，
+但是由于数量极少且很难被利用，因而影响不大。
 
 Mempool 的插入和打包过程如下图所示。
 
