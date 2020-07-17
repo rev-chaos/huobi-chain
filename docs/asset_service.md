@@ -171,6 +171,7 @@ pub struct ApprovePayload {
 GraphiQL 示例： 
 
 ```graphql
+mutation transfer_from {
   unsafeSendTransaction(inputRaw: {
     serviceName:"asset",
     method:"approve",
@@ -203,7 +204,7 @@ pub struct TransferFromPayload {
 GraphiQL 示例：
 
 ```graphql
-mutation transfer_from{
+mutation transfer_from {
   unsafeSendTransaction(inputRaw: {
     serviceName:"asset",
     method:"transfer_from",
@@ -243,7 +244,7 @@ pub struct GetAllowanceResponse {
 GraphiQL 示例：
 
 ```graphql
-query get_allowance{
+query get_allowance {
   queryService(
   caller: "0x016cbd9ee47a255a6f68882918dcdd9e14e6bee1"
   serviceName: "asset"
@@ -265,7 +266,7 @@ query get_allowance{
 fn get_native_asset(&self, ctx: ServiceContext) -> ProtocolResult<Asset>;
 
 // Example: graphiql send query
-query get_native_asset{
+query get_native_asset {
   queryService(
   caller: "0x016cbd9ee47a255a6f68882918dcdd9e14e6bee1"
   serviceName: "asset"
