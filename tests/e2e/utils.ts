@@ -6,10 +6,12 @@ const { hexToNum } = utils;
 
 const ADMIN_PRIVATE_KEY = '0x2b672bb959fa7a852d7259b129b65aee9c83b39f427d6f7bded1f58c4c9310c2';
 
-const client = new Client();
+const client = new Client({
+  defaultCyclesLimit: '0xffffffff',
+});
 
 const admin: Account = Account.fromPrivateKey(ADMIN_PRIVATE_KEY);
-
+const nativeAssetId = "0xf56924db538e77bb5951eb5ff0d02b88983c49c45eea30e8ae3e7234b311436c";
 const randomString = require("randomstring");
 
 export function genRandomString(prefix: String = 'r', length: number = 12) {
@@ -36,5 +38,5 @@ export function genRandomAccount() {
 }
 
 export {
-  admin, client, hexToNum
+  admin, client, hexToNum, nativeAssetId
 };

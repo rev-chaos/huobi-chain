@@ -1,17 +1,9 @@
-import { Account } from '@mutadev/account';
-import { Client } from '@mutadev/client';
 import { Address } from '@mutadev/types';
 import { KycService } from 'huobi-chain-sdk';
-import { genRandomString, genRandomStrings, genRandomAccount } from './utils';
+import { admin, client, genRandomString, genRandomStrings, genRandomAccount } from './utils';
 import { native_transfer } from './asset.test';
 
-const account = Account.fromPrivateKey(
-  '0x2b672bb959fa7a852d7259b129b65aee9c83b39f427d6f7bded1f58c4c9310c2',
-);
-const client = new Client({
-  defaultCyclesLimit: '0xffffffff',
-});
-const kycService = new KycService(client, account);
+const kycService = new KycService(client, admin);
 
 async function register_org(service = kycService, expectCode = 0, nameLen = 12, tagNum = 3, tagLen = 12) {
   const orgName = genRandomString('', nameLen);
@@ -33,7 +25,7 @@ async function register_org(service = kycService, expectCode = 0, nameLen = 12, 
   const res1 = await service.write.register_org({
     name: orgName,
     description,
-    admin: account.address,
+    admin: admin.address,
     supported_tags: supportedTags,
   });
   let code = Number(res1.response.response.code);
@@ -46,7 +38,7 @@ async function register_org(service = kycService, expectCode = 0, nameLen = 12, 
     expect(Number(res2.code)).toBe(0);
     expect(data2.name).toBe(orgName);
     expect(data2.description).toBe(description);
-    expect(data2.admin).toBe(account.address);
+    expect(data2.admin).toBe(admin.address);
     expect(JSON.stringify(data2.supported_tags)).toBe(JSON.stringify(supportedTags));
     expect(data2.approved).toBe(false);
 
@@ -209,7 +201,7 @@ describe('kyc service API test via huobi-sdk-js', () => {
     await register_org(newService);
     await approve(orgName, true, newService);
     await update_supported_tags(orgName, newService);
-    await change_service_admin(account.address, newService);
+    await change_service_admin(admin.address, newService);
   });
 
   test('test change_org_admin', async () => {
@@ -229,7 +221,7 @@ describe('kyc service API test via huobi-sdk-js', () => {
     await change_org_admin(orgName, newAccount.address);
     // recheck update_user_tags, change_org_admin
     await update_user_tags(orgName, tags, newService);
-    await change_org_admin(orgName, account.address, newService);
+    await change_org_admin(orgName, admin.address, newService);
   });
 
   // test eval_user_tag_expression
