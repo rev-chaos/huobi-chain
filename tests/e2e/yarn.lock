@@ -2089,10 +2089,10 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-huobi-chain-sdk@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/huobi-chain-sdk/-/huobi-chain-sdk-0.0.10.tgz#ff045b1395fe1d4fec8d760aba86df2a5c2223e5"
-  integrity sha512-mUqTqOIjnjN0q+/VRfTVjUBKWGzGtNfHHPQPSo5p1o3OvJiZBdv9aDKFSaa+MJcaKJagj36Nyv5VlgzEVeeB/g==
+huobi-chain-sdk@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/huobi-chain-sdk/-/huobi-chain-sdk-0.0.11.tgz#fd87e0d240fc22ad56db7ccbd976755d8f2bb4f6"
+  integrity sha512-IbbZK6KrkZWn46O6pXURVMUWniZJtCmm8oCS5Dp1UcNfLtPOQv168twAsOTqm6hC1JPNXiBz563VIriFtcDFXg==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"

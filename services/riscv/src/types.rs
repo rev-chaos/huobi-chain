@@ -31,6 +31,12 @@ impl Default for InterpreterType {
     }
 }
 
+#[test]
+fn test_serde() {
+    let payload_res: Result<DeployPayload, _> = serde_json::from_str("{\"code\":\"7f454c4602\",\"intp_type\":\"Binary\",\"init_args\":\"set k init\"}");
+    println!("{:?}", payload_res);
+}
+
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct DeployPayload {
     pub code:      String,
