@@ -43,16 +43,16 @@ async function create_asset(service = assetService, expectCode = 0, relayable = 
   }
 }
 
-// async function get_supply(assetId: string) {
-//   const res = await assetService.read.get_asset({
-//     id: assetId,
-//   });
-//   return new BigNumber(res.succeedData.supply);
-// }
-//
-// async function get_native_supply() {
-//   return await get_supply(nativeAssetId);
-// }
+async function get_supply(assetId: string) {
+  const res = await assetService.read.get_asset({
+    id: assetId,
+  });
+  return new BigNumber(res.succeedData.supply);
+}
+
+async function get_native_supply() {
+  return await get_supply(nativeAssetId);
+}
 
 async function get_balance(assetId: string, user: Address) {
   const res0 = await assetService.read.get_balance({
@@ -94,7 +94,7 @@ async function transfer(assetId: string, to: Address, value: number, service = a
   expect(code).toBe(expectCode);
 }
 
-export async function native_transfer(to: Address, value: number, service = assetService, expectCode = 0) {
+async function native_transfer(to: Address, value: number, service = assetService, expectCode = 0) {
   return await transfer(nativeAssetId, to, value, service, expectCode);
 }
 
@@ -154,10 +154,6 @@ async function mint(assetId: string, to: Address, amount: number, service = asse
   });
   const code = Number(res1.response.response.code);
   expect(code).toBe(expectCode);
-}
-
-async function native_mint(to: Address, amount: number, service = assetService, expectCode = 0) {
-  return await mint(nativeAssetId, to, amount, service, expectCode);
 }
 
 async function relay(assetId: string, amount: number, service = assetService, expectCode = 0) {
@@ -225,15 +221,21 @@ describe('asset service API test via huobi-sdk-js', () => {
     // transfer
     const value = 0xfffffff;
     await native_transfer(newAccount.address, value);
-    // mint
+    // create_asset
+    const assetId = await create_asset(newService);
+    // unauthorized mint
     const amount = 0x652a1fff;
-    await native_mint(newAccount.address, amount, newService, 0x6d);
-    const balance_before = await get_native_balance(newAccount.address);
+    await mint(assetId, newAccount.address, amount, assetService, 0x6d);
 
-    await native_mint(newAccount.address, amount);
+    const balance_before = await get_balance(assetId, admin.address);
+    const supply_before = await get_supply(assetId);
+    // mint
+    await mint(assetId, admin.address, amount, newService);
     // check balance
-    const balance_after = await get_native_balance(newAccount.address);
+    const balance_after = await get_balance(assetId, admin.address);
     expect(balance_after.minus(balance_before).eq(amount)).toBe(true);
+    const supply_after = await get_supply(assetId);
+    expect(supply_after.minus(supply_before).eq(amount)).toBe(true);
   });
 
   test('test burn', async () => {
@@ -242,9 +244,12 @@ describe('asset service API test via huobi-sdk-js', () => {
     // transfer
     const value = 0xffffffff;
     await native_transfer(newAccount.address, value);
+    const supply_before = await get_native_supply();
     // burn
     const amount = 0x652a1fff;
     await native_burn(amount, newService);
+    const supply_after = await get_native_supply();
+    expect(supply_before.minus(supply_after).eq(amount)).toBe(true);
   });
 
   test('test relay', async () => {
@@ -264,9 +269,9 @@ describe('asset service API test via huobi-sdk-js', () => {
     // change_admin
     await change_admin(newAccount.address, newService, 0x6d);
     // change_admin
-//     await change_admin(newAccount.address);
-//     // check mint, change_admin
-//     await change_admin(account.address, newService);
+    await change_admin(newAccount.address);
+    // change_admin
+    await change_admin(admin.address, newService);
   });
 
   test('test drain transfer', async () => {

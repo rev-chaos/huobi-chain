@@ -1,6 +1,8 @@
 import { utils } from '@mutadev/muta-sdk';
 import { Client } from '@mutadev/client';
 import { Account } from '@mutadev/account';
+import { BigNumber } from '@mutadev/shared';
+import { AssetService } from 'huobi-chain-sdk';
 
 const { hexToNum } = utils;
 
@@ -35,6 +37,25 @@ export function genRandomAccount() {
     length: 64,
   });
   return Account.fromPrivateKey('0x' + randomPriKey);
+}
+
+export async function transfer(to: string, value: number) {
+  const service = new AssetService(client, admin);
+  await service.write.transfer({
+    asset_id: nativeAssetId,
+    to,
+    value,
+    memo: 'transfer',
+  });
+}
+
+export async function get_balance(user: string) {
+  const service = new AssetService(client, admin);
+  const res0 = await service.read.get_balance({
+    asset_id: nativeAssetId,
+    user,
+  });
+  return new BigNumber(res0.succeedData.balance);
 }
 
 export {

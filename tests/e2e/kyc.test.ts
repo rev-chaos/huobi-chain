@@ -1,7 +1,6 @@
 import { Address } from '@mutadev/types';
 import { KycService } from 'huobi-chain-sdk';
-import { admin, client, genRandomString, genRandomStrings, genRandomAccount } from './utils';
-import { native_transfer } from './asset.test';
+import { admin, client, genRandomString, genRandomStrings, genRandomAccount, transfer } from './utils';
 
 const kycService = new KycService(client, admin);
 
@@ -188,7 +187,7 @@ describe('kyc service API test via huobi-sdk-js', () => {
     const orgName = res['org_name'];
     // create new account and transfer coins
     const newAccount = genRandomAccount();
-    await native_transfer(newAccount.address, 999999999);
+    await transfer(newAccount.address, 999999999);
     // before change, check change_org_approved, change_service_admin, register_org, update_supported_tags
     const newService = new KycService(client, newAccount);
     await register_org(newService, 0x68);
@@ -212,7 +211,7 @@ describe('kyc service API test via huobi-sdk-js', () => {
     await approve(orgName);
     // create new account and transfer coins
     const newAccount = genRandomAccount();
-    await native_transfer(newAccount.address, 999999999);
+    await transfer(newAccount.address, 999999999);
     // before update check update_user_tags, change_org_admin
     const newService = new KycService(client, newAccount);
     await change_org_admin(orgName, newAccount.address, newService, 0x68);
