@@ -284,13 +284,13 @@ checksum = "567b077b825e468cc974f0020d4082ee6e03132512f207ef1a02fd5d00d1f32d"
 name = "admission_control"
 version = "0.1.0"
 dependencies = [
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "cita_trie",
  "core-storage",
  "derive_more 0.99.9",
  "framework",
  "muta",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rand 0.7.3",
  "serde",
  "serde_json",
@@ -360,12 +360,12 @@ name = "asset"
 version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "derive_more 0.99.9",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -376,7 +376,7 @@ name = "asset"
 version = "0.4.0-beta2"
 dependencies = [
  "async-trait",
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "cita_trie",
@@ -385,7 +385,7 @@ dependencies = [
  "framework",
  "muta",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -429,13 +429,13 @@ name = "authorization"
 version = "0.1.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "derive_more 0.99.9",
  "lazy_static",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -545,19 +545,7 @@ version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
  "derive_more 0.15.0",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
- "proc-macro2 1.0.18",
- "quote 1.0.7",
- "serde_json",
- "syn 1.0.33",
-]
-
-[[package]]
-name = "binding-macro"
-version = "0.1.0-alpha.0"
-dependencies = [
- "derive_more 0.15.0",
- "muta-protocol 0.1.0-alpha.1",
+ "muta-protocol",
  "proc-macro2 1.0.18",
  "quote 1.0.7",
  "serde_json",
@@ -807,7 +795,7 @@ dependencies = [
  "derive_more 0.99.9",
  "lazy_static",
  "muta-apm",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "prometheus",
  "prometheus-static-metric",
 ]
@@ -850,7 +838,7 @@ name = "common-merkle"
 version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rayon",
  "static_merkle_tree",
 ]
@@ -907,7 +895,7 @@ dependencies = [
  "juniper_codegen 0.14.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static",
  "log",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "num_cpus",
  "serde_json",
 ]
@@ -934,7 +922,7 @@ dependencies = [
  "futures-timer 3.0.2",
  "hex",
  "log",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "overlord",
  "parking_lot 0.11.0",
  "prost",
@@ -978,7 +966,7 @@ dependencies = [
  "hex",
  "log",
  "muta-apm",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "num-traits",
  "rand 0.7.3",
  "serde",
@@ -1003,7 +991,7 @@ dependencies = [
  "hostname",
  "lazy_static",
  "log",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "parking_lot 0.11.0",
  "prost",
  "rand 0.7.3",
@@ -1027,7 +1015,7 @@ dependencies = [
  "derive_more 0.15.0",
  "futures 0.3.5",
  "lazy_static",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "parking_lot 0.11.0",
  "rocksdb 0.14.0",
  "tokio 0.2.21",
@@ -1348,7 +1336,7 @@ dependencies = [
  "lazy_static",
  "log",
  "metadata 0.1.0-alpha.0",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rayon",
  "rlp 0.4.5",
  "rocksdb 0.12.4",
@@ -1573,7 +1561,7 @@ version = "0.4.0-beta2"
 dependencies = [
  "asset 0.4.0-beta2",
  "async-trait",
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "cita_trie",
@@ -1584,7 +1572,7 @@ dependencies = [
  "metadata 0.4.0-beta2",
  "muta",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -1757,7 +1745,7 @@ dependencies = [
  "multi-signature",
  "muta",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "riscv",
  "rlp 0.4.5",
  "serde",
@@ -1969,14 +1957,14 @@ name = "kyc"
 version = "0.1.0"
 dependencies = [
  "async-trait",
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "cita_trie",
  "core-storage",
  "derive_more 0.99.9",
  "framework",
  "muta",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -2179,11 +2167,11 @@ name = "metadata"
 version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "derive_more 0.15.0",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -2194,14 +2182,14 @@ name = "metadata"
 version = "0.4.0-beta2"
 dependencies = [
  "async-trait",
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "cita_trie",
  "derive_more 0.15.0",
  "framework",
  "muta",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -2316,7 +2304,7 @@ name = "multi-signature"
 version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "common-crypto",
  "derive_more 0.99.9",
@@ -2324,7 +2312,7 @@ dependencies = [
  "hex",
  "lazy_static",
  "muta-codec-derive",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rand 0.7.3",
  "rlp 0.4.5",
  "serde",
@@ -2337,7 +2325,7 @@ version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
  "actix-rt",
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "bytes 0.5.5",
  "clap",
  "common-apm",
@@ -2356,7 +2344,7 @@ dependencies = [
  "hex",
  "log",
  "muta-apm",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "parking_lot 0.11.0",
  "rlp 0.4.5",
  "serde",
@@ -2409,29 +2397,6 @@ dependencies = [
 name = "muta-protocol"
 version = "0.1.0-alpha.1"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
-dependencies = [
- "async-trait",
- "bincode",
- "byteorder",
- "bytes 0.5.5",
- "cita_trie",
- "creep",
- "derive_more 0.99.9",
- "futures 0.3.5",
- "hasher",
- "hex",
- "json",
- "lazy_static",
- "muta-codec-derive",
- "prost",
- "rlp 0.4.5",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "muta-protocol"
-version = "0.1.0-alpha.1"
 dependencies = [
  "async-trait",
  "bincode",
@@ -3293,7 +3258,7 @@ name = "riscv"
 version = "0.4.0-beta2"
 dependencies = [
  "async-trait",
- "binding-macro 0.1.0-alpha.0",
+ "binding-macro",
  "byteorder",
  "cita_trie",
  "ckb-vm",
@@ -3304,7 +3269,7 @@ dependencies = [
  "hex",
  "log",
  "muta",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rlp 0.4.5",
  "serde",
  "serde_json",
@@ -4426,14 +4391,14 @@ name = "util"
 version = "0.1.0-alpha.0"
 source = "git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2#9bf7da7be8ca8e3fb92be411e6f2c4d8f47e80cc"
 dependencies = [
- "binding-macro 0.1.0-alpha.0 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "binding-macro",
  "byteorder",
  "bytes 0.5.5",
  "common-crypto",
  "derive_more 0.15.0",
  "hasher",
  "hex",
- "muta-protocol 0.1.0-alpha.1 (git+https://github.com/nervosnetwork/muta?tag=v0.2.0-dev.2)",
+ "muta-protocol",
  "rand 0.7.3",
  "rlp 0.4.5",
  "serde",
