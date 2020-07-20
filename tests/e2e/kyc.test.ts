@@ -1,8 +1,9 @@
 import { Account } from '@mutadev/account';
 import { Client } from '@mutadev/client';
 import { Address } from '@mutadev/types';
-import { AssetService, KycService } from 'huobi-chain-sdk';
+import { KycService } from 'huobi-chain-sdk';
 import { genRandomString, genRandomStrings, genRandomAccount } from './utils';
+import { native_transfer } from './asset.test';
 
 const account = Account.fromPrivateKey(
   '0x2b672bb959fa7a852d7259b129b65aee9c83b39f427d6f7bded1f58c4c9310c2',
@@ -11,8 +12,6 @@ const client = new Client({
   defaultCyclesLimit: '0xffffffff',
 });
 const kycService = new KycService(client, account);
-
-const basic_fee = 51000;
 
 async function register_org(service = kycService, expectCode = 0, nameLen = 12, tagNum = 3, tagLen = 12) {
   const orgName = genRandomString('', nameLen);
@@ -39,11 +38,6 @@ async function register_org(service = kycService, expectCode = 0, nameLen = 12, 
   });
   let code = Number(res1.response.response.code);
   expect(code).toBe(expectCode);
-  if(code == 0) {
-    expect(Number(res1.cyclesUsed)).toBe(basic_fee + (nameLen + 50 + 20) * 1000 + tagNum * 10000);
-  } else {
-    expect(Number(res1.cyclesUsed)).toBe(basic_fee);
-  }
 
   // post-check
   if(code == 0) {
@@ -76,13 +70,8 @@ async function approve(orgName: string, approved = true, service = kycService, e
 
   let code = Number(res0.response.response.code);
   expect(code).toBe(expectCode);
-  expect(Number(res0.cyclesUsed)).toBe(basic_fee);
 
   if(code == 0) {
-    const data = JSON.parse(res0.events[0].data);
-    expect(data.org_name).toBe(orgName);
-    expect(data.approved).toBe(approved);
-
     const res1 = await service.read.get_org_info(orgName);
     expect(res1.succeedData.approved).toBe(approved);
   }
@@ -96,17 +85,8 @@ async function update_supported_tags(orgName: string, service = kycService, expe
   });
   let code = Number(res0.response.response.code);
   expect(code).toBe(expectCode);
-  if(code == 0) {
-    expect(Number(res0.cyclesUsed)).toBe(basic_fee + tagNum * 10000);
-  } else {
-    expect(Number(res0.cyclesUsed)).toBe(basic_fee);
-  }
 
   if(code == 0) {
-    const data = JSON.parse(res0.events[0].data);
-    expect(data.org_name).toBe(orgName);
-    expect(JSON.stringify(data.supported_tags)).toBe(JSON.stringify(newSupportedTags));
-
     const res2 = await service.read.get_org_info(orgName);
     expect(JSON.stringify(res2.succeedData.supported_tags)).toBe(JSON.stringify(newSupportedTags));
   }
@@ -129,21 +109,8 @@ async function update_user_tags(orgName: string, supportedTags: Array<string>, s
   });
   const code = Number(res0.response.response.code);
   expect(code).toBe(expectCode);
-  if(code == 0) {
-    expect(Number(res0.cyclesUsed)).toBe(basic_fee + (supportedTags.length + 1) * valNum * 10000);
-  } else {
-    expect(Number(res0.cyclesUsed)).toBe(basic_fee);
-  }
 
   if(code == 0) {
-    const data = JSON.parse(res0.events[0].data);
-    expect(data.org_name).toBe(orgName);
-    expect(data.user).toBe(user);
-    expect(data.tags.length).toBe(tags.length);
-    for (const k in data.tags) {
-      expect(JSON.stringify(data.tags[k])).toBe(JSON.stringify(tags[k]));
-    }
-
     const res1 = await service.read.get_user_tags({
       org_name: orgName,
       user,
@@ -164,7 +131,6 @@ async function change_service_admin(newAdmin: Address, service = kycService, exp
   });
   const code = Number(res0.response.response.code);
   expect(code).toBe(expectCode);
-  expect(Number(res0.cyclesUsed)).toBe(basic_fee);
 }
 
 async function change_org_admin(orgName: string, newAdmin: Address, service = kycService, expectCode = 0) {
@@ -174,7 +140,6 @@ async function change_org_admin(orgName: string, newAdmin: Address, service = ky
   });
   const code = Number(res0.response.response.code);
   expect(code).toBe(expectCode);
-  expect(Number(res0.cyclesUsed)).toBe(basic_fee);
 }
 
 async function eval_user_tag_expression(user: Address, expression: string, expectCode = 0, result = true) {
@@ -231,14 +196,7 @@ describe('kyc service API test via huobi-sdk-js', () => {
     const orgName = res['org_name'];
     // create new account and transfer coins
     const newAccount = genRandomAccount();
-    const assetService = new AssetService(client, account);
-    const res1 = await assetService.write.transfer({
-      asset_id: '0xf56924db538e77bb5951eb5ff0d02b88983c49c45eea30e8ae3e7234b311436c',
-      to: newAccount.address,
-      value: 99999999999,
-      memo: 'test',
-    });
-    expect(Number(res1.response.response.code)).toBe(0);
+    await native_transfer(newAccount.address, 999999999);
     // before change, check change_org_approved, change_service_admin, register_org, update_supported_tags
     const newService = new KycService(client, newAccount);
     await register_org(newService, 0x68);
@@ -262,14 +220,7 @@ describe('kyc service API test via huobi-sdk-js', () => {
     await approve(orgName);
     // create new account and transfer coins
     const newAccount = genRandomAccount();
-    const assetService = new AssetService(client, account);
-    const res2 = await assetService.write.transfer({
-      asset_id: '0xf56924db538e77bb5951eb5ff0d02b88983c49c45eea30e8ae3e7234b311436c',
-      to: newAccount.address,
-      value: 99999999,
-      memo: 'test',
-    });
-    expect(Number(res2.response.response.code)).toBe(0);
+    await native_transfer(newAccount.address, 999999999);
     // before update check update_user_tags, change_org_admin
     const newService = new KycService(client, newAccount);
     await change_org_admin(orgName, newAccount.address, newService, 0x68);
